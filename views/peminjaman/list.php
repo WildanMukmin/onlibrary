@@ -46,7 +46,7 @@ $data_user = getTransactionsById($_SESSION['user']['id']);
               </td>
               <td class="px-6 py-4 text-center space-x-2 flex items-center justify-around">
                 <a href="edit.php?id=<?= $row['transaksi_id'] ?>" class="text-blue-600 hover:underline text-sm">✏️ Edit</a>
-                <a href="delete_process.php?id=<?= $row['transaksi_id'] ?>" class="text-red-600 hover:underline text-sm" onclick="return confirm('Yakin ingin menghapus?')">🗑️ Hapus</a>
+                <a href="delete.php?id=<?= $row['transaksi_id'] ?>" class="text-red-600 hover:underline text-sm" onclick="return confirm('Yakin ingin menghapus?')">🗑️ Hapus</a>
               </td>
             </tr>
           <?php endforeach; ?>
