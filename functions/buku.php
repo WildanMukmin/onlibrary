@@ -34,7 +34,7 @@ function addBook($judul, $penulis, $penerbit, $tahun_terbit, $isbn, $kategori, $
         $fileName = $isbn . '_' . time() . '.' . pathinfo($image['name'], PATHINFO_EXTENSION);
         $targetFile = $uploadDir . $fileName;
         if (move_uploaded_file($image['tmp_name'], $targetFile)) {
-            $image_path = '/project-web-teori/public/images/buku/' . $fileName;
+            $image_path = '/onlibrary/public/images/buku/' . $fileName;
         }
     }
     $sql = "
@@ -66,7 +66,7 @@ function updateBook($id, $judul, $penulis, $penerbit, $tahun_terbit, $isbn, $kat
         $targetFile = $uploadDir . $fileName;
 
         if (move_uploaded_file($image['tmp_name'], $targetFile)) {
-            $image_path = '/project-web-teori/public/images/buku/' . $fileName;
+            $image_path = '/onlibrary/public/images/buku/' . $fileName;
         }
     }else{
                 $cleanTitle = preg_replace('/[^a-zA-Z0-9-_]/', '_', strtolower($judul));

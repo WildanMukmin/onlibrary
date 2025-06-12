@@ -2,11 +2,11 @@
 include("config.php");
 
 if ($role !== "admin" && $is_logged_in) {
-    header("Location: /project-web-teori/views/dashboard.php");
+    header("Location: /onlibrary/views/dashboard.php");
     exit;
 }
 
 if ($role !== "admin"&& !$is_logged_in){
-    header("Location: /project-web-teori/public/auth/login.php");
+    header("Location: /onlibrary/public/auth/login.php");
     exit;
 }

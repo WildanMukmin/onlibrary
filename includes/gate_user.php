@@ -3,11 +3,11 @@
 include("config.php");
 
 if ($role !== "user" && $is_logged_in) {
-    header("Location: /project-web-teori/views/dashboard.php");
+    header("Location: /onlibrary/views/dashboard.php");
     exit;
 }
 
 if ($role !== "user"&& !$is_logged_in){
-    header("Location: /project-web-teori/public/auth/login.php");
+    header("Location: /onlibrary/public/auth/login.php");
     exit;
 }
