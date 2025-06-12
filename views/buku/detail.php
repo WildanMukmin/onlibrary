@@ -1,11 +1,18 @@
 <?php
 $page_title = "Detail Buku";
 require_once __DIR__ . '/../../includes/header.php';
-require_once __DIR__ . '/../../functions/buku.php';
+require_once __DIR__ . '/../../functions/functions.php';
 
 // Validasi ID buku dari parameter GET
 $id = isset($_GET['id']) ? $_GET['id'] : null;
 $book = $id ? getBookById($id) : null;
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $result = pinjamBuku($_POST["id_peminjam"], $_POST["id_buku"]);
+  $_SESSION["success"] = $result["message"];
+  header("location: list.php");
+}
+
 
 if (!$book) {
     echo "<div class='text-center mt-10 text-red-500 text-xl'>Buku tidak ditemukan.</div>";
@@ -66,10 +73,21 @@ if (!$book) {
 
             <!-- Tombol Aksi -->
             <div class="mt-6 flex gap-4">
-    <a href="../peminjaman/add.php?id=<?php echo $book['id']; ?>"
-       class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-xl shadow-md transition">
-         Pinjam Buku
-    </a>
+                <form action="" method="POST">
+                    <input type="hidden" name="id_buku" value="<?= $id ?>">
+                    <input type="hidden" name="id_peminjam" value="<?= $user_id ?>">
+                    <?php if ($book['stok'] > 0):?>
+                        <button type="submit"
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-xl shadow-md transition">
+                        Pinjam Buku
+                    </button>
+                    <?php endif?>
+                    <?php if($book['stok'] <= 0):?>
+                        <button disabled class="bg-blue-200 hover:bg-blue-300 text-white font-semibold px-5 py-2 rounded-xl shadow-md transition">
+                            Pinjam Buku
+                        </button>
+                        <?php endif?>
+                    </form>
     <a href="list.php"
        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-5 py-2 rounded-xl transition">
          Kembali

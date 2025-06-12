@@ -11,6 +11,16 @@ $books = getBooks();
         <!-- Header -->
         <h1 class="text-3xl font-bold">Rekomendasi Buku</h1>
         <p class="text-gray-600 mt-1">Temukan inspirasi baca kamu!</p>
+              <?php if (isset($_SESSION['error'])): ?>
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          <?= $_SESSION['error']; unset($_SESSION['error']); ?>
+        </div>
+      <?php endif; ?>
+      <?php if (isset($_SESSION['success'])): ?>
+        <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-4">
+          <?= $_SESSION['success']; unset($_SESSION['success']); ?>
+        </div>
+      <?php endif; ?>
 
         <!-- Kartu Buku -->
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-6">

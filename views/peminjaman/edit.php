@@ -4,9 +4,10 @@ require_once '../../includes/db_connection.php';
 require_once '../../functions/peminjaman.php';
 require_once '../../includes/gate_admin.php';
 
-
-updateTransaction($_POST["id"], $_POST["id_peminjam"], $_POST["id_buku"], $_POST["tanggal_peminjaman"], $_POST["tanggal_pengembalian"], $_POST["status"]);
-header("location: list.php");
+if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+  updateTransaction($_POST["id"], $_POST["id_peminjam"], $_POST["id_buku"], $_POST["tanggal_peminjaman"], $_POST["tanggal_pengembalian"], $_POST["status"]);
+  header("location: list.php");
+}
 
 $id = $_GET["id"];
 $transaksi = getTransactionById($id);
@@ -50,8 +51,8 @@ $transaksi = getTransactionById($id);
       <div>
         <label class="block font-medium text-gray-700 mb-1">Status</label>
         <select name="status" class="w-full px-4 py-2 border rounded-md">
-          <option value="Dipinjam" <?= $transaksi['status'] == 'Dipinjam' ? 'selected' : '' ?>>Dipinjam</option>
-          <option value="Dikembalikan" <?= $transaksi['status'] == 'Dikembalikan' ? 'selected' : '' ?>>Dikembalikan</option>
+          <option value="Dipinjam" <?= $transaksi['status'] == 'dipinjam' ? 'selected' : '' ?>>Dipinjam</option>
+          <option value="Dikembalikan" <?= $transaksi['status'] == 'dikembalikan' ? 'selected' : '' ?>>Dikembalikan</option>
         </select>
       </div>
 

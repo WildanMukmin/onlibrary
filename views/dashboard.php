@@ -1,8 +1,6 @@
 <?php
 require_once __DIR__ . '/../includes/header.php';
-require_once __DIR__ . '/../functions/anggota.php';
-require_once __DIR__ . '/../functions/buku.php';
-require_once __DIR__ . '/../functions/peminjaman.php';
+require_once __DIR__ . '/../functions/functions.php';
 require_once '../includes/gate_auth.php';
 
 $user = $_SESSION['user'];
@@ -53,12 +51,12 @@ if ($role === "admin") {
 <?php
 }
 else if($role === "user"){
-    require_once __DIR__ . '/../functions/peminjaman.php';
+
 
     $user_id = $_SESSION['user']['id'];
     
     $borrowed_books_list = getBorrowedBooksByUser($user_id);
-    $borrowed_count = count($borrowed_books_list);
+    $borrowed_count = getJumlahBukuDipinjam($user_id);
 ?>
     <div>
         <h1 class="text-3xl font-bold text-gray-800">Halo, <?php echo htmlspecialchars($user['nama']); ?>!</h1>
@@ -95,7 +93,7 @@ else if($role === "user"){
                                     <td class="px-6 py-4"><?php echo $no++; ?></td>
                                     <td class="px-6 py-4 font-medium text-gray-900"><?php echo htmlspecialchars($book['judul_buku']); ?></td>
                                     <td class="px-6 py-4 font-bold text-red-600">
-                                        <?php echo date("d M Y", strtotime($book['tanggal_pengembalian'])); ?>
+                                        <?php echo $book['tanggal_pengembalian'] ? date("d M Y", strtotime($book['tanggal_pengembalian'])) : "Tidak Ditentukan"; ?>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
