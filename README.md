@@ -1,12 +1,16 @@
 # 📚 OnLibrary
 Proyek ini merupakan sistem manajemen perpustakaan sederhana yang dibangun menggunakan PHP dan MySQL. Tujuannya adalah untuk mengelola data buku, anggota, dan transaksi peminjaman secara aman dan konsisten, dengan memanfaatkan stored procedure, trigger, transaction, dan stored function. Sistem ini juga dirancang untuk memiliki mekanisme backup otomatis demi menjaga keamanan data.
 
+![Home](assets/home.png)
+
 ## 📌 Detail Konsep
 ### 🧠 Stored Procedure 
-Stored procedure bertindak seperti SOP internal yang menetapkan alur eksekusi berbagai operasi penting di sistem perbankan. Procedure ini disimpan langsung di lapisan database, sehingga dapat menjamin konsistensi, efisiensi, dan keamanan eksekusi, terutama dalam sistem terdistribusi atau multi-user.
+Stored procedure bertindak seperti SOP internal yang menetapkan alur eksekusi berbagai operasi penting di sistem perpustakaan. Procedure ini disimpan langsung di lapisan database, sehingga dapat menjamin konsistensi, efisiensi, dan keamanan eksekusi, terutama dalam sistem terdistribusi atau multi-user.
 
 `pinjam_buku`
 `pinjam_buku(p_id_anggota, p_id_buku, p_status)`: Memeriksa apakah anggota telah mencapai batas peminjaman maksimum dan apakah stok buku masih tersedia sebelum mencatat transaksi peminjaman baru.
+
+![Procedure](assets/procedure_functions.png)
 
 ```
   DECLARE jumlahDipinjam INT;
@@ -32,7 +36,9 @@ Stored procedure bertindak seperti SOP internal yang menetapkan alur eksekusi be
 ### 🚨 Trigger
 Trigger dalam sistem ini berfungsi sebagai pengawas otomatis yang menjaga integritas data stok buku. Ada dua trigger utama yang bekerja pada tabel transaksi.
 
-*`kurangi_stok_setelah_pinjam`: Aktif setelah transaksi peminjaman baru ditambahkan (AFTER INSERT). Trigger ini secara otomatis mengurangi jumlah stok pada tabel buku.
+![Trigger](assets/trigger.png)
+
+* `kurangi_stok_setelah_pinjam`: Aktif setelah transaksi peminjaman baru ditambahkan (AFTER INSERT). Trigger ini secara otomatis mengurangi jumlah stok pada tabel buku.
 ```
 CREATE TRIGGER kurangi_stok_setelah_pinjam
 AFTER INSERT ON transaksi
@@ -46,7 +52,7 @@ BEGIN
 END $$
 ```
 
-*`tambah_stok_setelah_kembali`: Aktif setelah status transaksi diubah menjadi 'dikembalikan' (AFTER UPDATE). Trigger ini mengembalikan jumlah stok pada tabel buku.
+* `tambah_stok_setelah_kembali`: Aktif setelah status transaksi diubah menjadi 'dikembalikan' (AFTER UPDATE). Trigger ini mengembalikan jumlah stok pada tabel buku.
 ```
 CREATE TRIGGER tambah_stok_setelah_kembali
 AFTER UPDATE ON transaksi
@@ -62,7 +68,8 @@ END $$
 
 ### 🔄 Transaction (Transaksi)
 Dalam sistem perpustakaan, sebuah operasi seperti pengembalian buku harus bersifat atomik. Artinya, status peminjaman harus berhasil diubah, dan stok buku harus berhasil diperbarui. Jika salah satu gagal, seluruh proses harus dibatalkan. Prinsip ini diimplementasikan menggunakan beginTransaction() dan commit() pada operasi database.
-*Implementasi transaction untuk procedure `pinjam_buku`
+
+* Implementasi transaction untuk procedure `pinjam_buku`
 ```
     try {
         $conn->begin_transaction();
@@ -88,6 +95,7 @@ Dalam sistem perpustakaan, sebuah operasi seperti pengembalian buku harus bersif
 ```
 
 ### 📺 Stored Function 
+![Function](assets/procedure_functions.png)
 * Aplikasi
 `dashboard.php`
 ```php
